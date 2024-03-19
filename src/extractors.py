@@ -1,4 +1,5 @@
 from abc import ABC, abstractmethod
+from typing import List
 from selenium.webdriver import Chrome
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import Select
@@ -10,12 +11,12 @@ class BaseExtractor(ABC):
     BASE_URL: str
     CATEGORIES: list
     @abstractmethod
-    def get_preview(self, driver: Chrome) -> list:
+    def get_preview(self, driver: Chrome) -> List[dict]:
         pass
-    
+
     @staticmethod
     @abstractmethod
-    def get_images(url: str, driver: Chrome) -> dict:
+    def get_images(url: str, driver: Chrome) -> List[str]:
         pass
 
     @staticmethod
@@ -44,6 +45,7 @@ class NikonExtractor(BaseExtractor):
             for camera in cameras:
                 url = cls.BASE_URL + camera.find('a', class_='product-detail-link')['href']
                 camera_dict = {
+                    "brand": "Nikon",
                     "model": camera.find('span', itemprop='name').text.strip(),
                     "price": camera.find('span', itemprop='price').text.strip(),
                     "detailed_link": url,
@@ -68,7 +70,7 @@ class NikonExtractor(BaseExtractor):
             else:
                 image_urls.append(image['src'])
         return {"images": image_urls}
-    
+
     @staticmethod
     def get_specs(url: str, driver: Chrome) -> dict:
         driver.get(url + "#tab-ProductDetail-ProductTabs-TechSpecs")
