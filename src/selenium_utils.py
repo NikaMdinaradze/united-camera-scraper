@@ -1,5 +1,6 @@
 import time
 
+from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support import expected_conditions as EC
@@ -44,3 +45,33 @@ def click_picture(driver, selector):
 def specs_see_more(driver):
     click_specifications(driver, "PDPSpecificationsLink")
     click_view_more(driver, "(//button[contains(text(),'See More')])[2]")
+
+
+def find_load_more(driver, xpath):
+    return WebDriverWait(driver, 10).until(
+        EC.presence_of_element_located((By.XPATH, xpath))
+    )
+
+
+def scroll_to_load_more(driver, xpath):
+    while True:
+        try:
+            load_more_button = find_load_more(driver, xpath)
+            if load_more_button:
+                driver.execute_script(
+                    "arguments[0].scrollIntoView({block: 'center', inline: 'center'});",
+                    load_more_button,
+                )
+                WebDriverWait(driver, 10).until(
+                    EC.element_to_be_clickable((By.XPATH, xpath))
+                )
+                time.sleep(1)
+                load_more_button.click()
+                time.sleep(3)
+            else:
+                break
+        except NoSuchElementException:
+            break
+        except Exception:
+            scroll_page_to_bottom(driver)
+            break
