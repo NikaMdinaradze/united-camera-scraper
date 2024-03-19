@@ -38,6 +38,12 @@ class Camera:
             specifications=self.specs
         )
 
+
+    def is_in_database(self):
+        query = {"$or": [{"brand": self.brand}, {"model": self.model}]}
+        existing_camera = collection.find_one(query)
+        return existing_camera
+
     def to_dict(self):
         data = {
             "model": self.model,
@@ -59,11 +65,14 @@ class CameraManager:
         camera_previews = extractor.get_preview(driver)
         for camera_preview in camera_previews:
             camera = Camera(**camera_preview, extractor=extractor)
-            camera.set_images(driver)
-            camera.set_specs(driver)
-            camera.set_description()
-            cls.cameras.append(camera.to_dict())
+            if not camera.is_in_database():
+                camera.set_images(driver)
+                camera.set_specs(driver)
+                camera.set_description()
+                cls.cameras.append(camera.to_dict())
 
     @classmethod
     def save_cameras(cls):
-        collection.insert_many(cls.cameras)
+        if cls.cameras:
+            collection.insert_many(cls.cameras)
+            cls.cameras = [] # release cameras after saving them in database
