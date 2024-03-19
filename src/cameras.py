@@ -1,5 +1,6 @@
 from extractors import BaseExtractor
 from selenium.webdriver import Chrome
+from mongo import collection
 
 class Camera:
     def __init__(self,
@@ -32,6 +33,19 @@ class Camera:
     def set_description(self, driver: Chrome):
         ...
 
+    def to_dict(self):
+        data = {
+            "model": self.model,
+            "price": self.price,
+            "detailed_link": self.detailed_link,
+            "category": self.category,
+            "brand": self.brand,
+            "images": self.images,
+            "specs": self.specs,
+            "description": self.description
+        }
+        return data
+
 class CameraManager:
     cameras = []
 
@@ -42,8 +56,8 @@ class CameraManager:
             camera = Camera(**camera_preview, extractor=extractor)
             camera.set_images(driver)
             camera.set_specs(driver)
-            cls.cameras.append(camera)
+            cls.cameras.append(camera.to_dict())
 
     @classmethod
     def save_cameras(cls):
-        print(cls.cameras)
+        collection.insert_many(cls.cameras)

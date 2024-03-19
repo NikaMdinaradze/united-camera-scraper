@@ -55,7 +55,7 @@ class NikonExtractor(BaseExtractor):
         return camera_previews
 
     @staticmethod
-    def get_images(url: str, driver: Chrome) -> dict:
+    def get_images(url: str, driver: Chrome) -> List[str]:
         driver.get(url)
         wait_for_page_load(driver)
         page_source = driver.page_source
@@ -69,7 +69,7 @@ class NikonExtractor(BaseExtractor):
                 image_urls.append(image['data-pend-src'])
             else:
                 image_urls.append(image['src'])
-        return {"images": image_urls}
+        return image_urls
 
     @staticmethod
     def get_specs(url: str, driver: Chrome) -> dict:
@@ -83,4 +83,4 @@ class NikonExtractor(BaseExtractor):
             key = spec.find("h4", class_=["spec-title", "col-sm-6"])
             value = spec.find("div", class_=["specs col-sm-6"])
             result[key.get_text(strip=True)] = value.get_text(strip=True)
-        return {"specs": result}
+        return result
