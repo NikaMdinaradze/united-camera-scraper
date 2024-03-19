@@ -24,6 +24,10 @@ class BaseExtractor(ABC):
     def get_specs(url: str, driver: Chrome) -> dict:
         pass
 
+def get_soup(page_source):
+    soup = BeautifulSoup(page_source, 'html.parser')
+    return soup
+
 class NikonExtractor(BaseExtractor):
     BASE_URL = "https://www.nikonusa.com"
     CATEGORIES = ["compact-digital-cameras", "dslr-cameras", "mirrorless-cameras"]
@@ -39,7 +43,7 @@ class NikonExtractor(BaseExtractor):
             select = Select(select_element)
             select.select_by_value("-1")
             page_source = driver.page_source
-            soup = BeautifulSoup(page_source, 'html.parser')
+            soup = get_soup(page_source)
             cameras = soup.find_all('li', class_='nkn-resp-filter-entry')
 
             for camera in cameras:
@@ -59,7 +63,7 @@ class NikonExtractor(BaseExtractor):
         driver.get(url)
         wait_for_page_load(driver)
         page_source = driver.page_source
-        soup = BeautifulSoup(page_source, 'html.parser')
+        soup = get_soup(page_source)
         image_container = soup.find("ol", class_="carousel-inner")
         images = image_container.find_all("img")
         image_urls = []
@@ -76,7 +80,7 @@ class NikonExtractor(BaseExtractor):
         driver.get(url + "#tab-ProductDetail-ProductTabs-TechSpecs")
         wait_for_page_load(driver)
         page_source = driver.page_source
-        soup = BeautifulSoup(page_source, 'html.parser')
+        soup = get_soup(page_source)
         specs = soup.find_all("li", class_=["spec-content", "row"])
         result = {}
         for spec in specs:
