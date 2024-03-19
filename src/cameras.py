@@ -1,6 +1,7 @@
 from extractors import BaseExtractor
 from selenium.webdriver import Chrome
 from mongo import collection
+from chatgpt import generate_description
 
 class Camera:
     def __init__(self,
@@ -30,8 +31,12 @@ class Camera:
     def set_specs(self, driver: Chrome):
         self.specs = self.extractor.get_specs(self.detailed_link, driver)
 
-    def set_description(self, driver: Chrome):
-        ...
+    def set_description(self):
+        self.description = generate_description(
+            brand=self.brand,
+            model=self.model,
+            specifications=self.specs
+        )
 
     def to_dict(self):
         data = {
@@ -56,6 +61,7 @@ class CameraManager:
             camera = Camera(**camera_preview, extractor=extractor)
             camera.set_images(driver)
             camera.set_specs(driver)
+            camera.set_description()
             cls.cameras.append(camera.to_dict())
 
     @classmethod
