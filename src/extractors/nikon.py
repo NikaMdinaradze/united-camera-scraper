@@ -5,7 +5,7 @@ from selenium.webdriver import Chrome
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import Select
 
-from ..selenium_utils import wait_for_page_load
+from ..utils import wait_for_page_load
 
 
 class NikonExtractor(BaseExtractor):
