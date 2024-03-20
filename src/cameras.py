@@ -1,19 +1,23 @@
-from extractors import BaseExtractor
 from selenium.webdriver import Chrome
-from mongo import collection
+
 from chatgpt import generate_description
+from extractors.base import BaseExtractor
+from settings import collection
+
 
 class Camera:
-    def __init__(self,
-                 model: str,
-                 price: str,
-                 detailed_link: str,
-                 category: str,
-                 brand: str,
-                 extractor: BaseExtractor,
-                 images: list = None,
-                 specs: dict = None,
-                 description: str = None) -> None:
+    def __init__(
+        self,
+        model: str,
+        price: str,
+        detailed_link: str,
+        category: str,
+        brand: str,
+        extractor: BaseExtractor,
+        images: list = None,
+        specs: dict = None,
+        description: str = None,
+    ) -> None:
         self.model = model
         self.price = price
         self.detailed_link = detailed_link
@@ -33,11 +37,8 @@ class Camera:
 
     def set_description(self):
         self.description = generate_description(
-            brand=self.brand,
-            model=self.model,
-            specifications=self.specs
+            brand=self.brand, model=self.model, specifications=self.specs
         )
-
 
     def is_in_database(self):
         query = {"$or": [{"brand": self.brand}, {"model": self.model}]}
@@ -53,9 +54,10 @@ class Camera:
             "brand": self.brand,
             "images": self.images,
             "specs": self.specs,
-            "description": self.description
+            "description": self.description,
         }
         return data
+
 
 class CameraManager:
     cameras = []
@@ -75,4 +77,4 @@ class CameraManager:
     def save_cameras(cls):
         if cls.cameras:
             collection.insert_many(cls.cameras)
-            cls.cameras = [] # release cameras after saving them in database
+            cls.cameras = []  # release cameras after saving them in database
