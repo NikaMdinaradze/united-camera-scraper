@@ -3,7 +3,9 @@ from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 
 from cameras import CameraManager
-from extractors import CanonExtractor, NikonExtractor, SonyExtractor
+from extractors.canon import CanonExtractor
+from extractors.nikon import NikonExtractor
+from extractors.sony import SonyExtractor
 
 chrome_options = Options()
 chrome_options.add_argument("--no-sandbox")
