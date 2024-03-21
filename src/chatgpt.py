@@ -1,6 +1,6 @@
 from openai import OpenAI
 
-from settings import API_KEY
+from src.settings import API_KEY
 
 
 def generate_description(brand: str, model: str, specifications: dict):

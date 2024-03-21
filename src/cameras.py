@@ -1,8 +1,8 @@
 from selenium.webdriver import Chrome
 
-from chatgpt import generate_description
-from extractors.base import BaseExtractor
-from settings import collection
+from src.chatgpt import generate_description
+from src.extractors.base import BaseExtractor
+from src.settings import collection
 
 
 class Camera:

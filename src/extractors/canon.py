@@ -1,7 +1,7 @@
-from base import BaseExtractor, get_soup
 from selenium.webdriver import Chrome
 
-from ..utils import scroll_to_load_more, wait_for_page_load
+from src.extractors.base import BaseExtractor, get_soup
+from src.utils import scroll_to_load_more, wait_for_page_load
 
 
 class CanonExtractor(BaseExtractor):
