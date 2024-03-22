@@ -1,8 +1,8 @@
-from src.cameras import CameraManager
-from src.extractors.canon import CanonExtractor
-from src.extractors.nikon import NikonExtractor
-from src.extractors.sony import SonyExtractor
-from src.settings import get_driver
+from cameras import CameraManager
+from extractors.canon import CanonExtractor
+from extractors.nikon import NikonExtractor
+from extractors.sony import SonyExtractor
+from settings import get_driver
 
 def main():
     driver = get_driver()
