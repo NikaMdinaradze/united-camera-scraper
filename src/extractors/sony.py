@@ -1,7 +1,7 @@
 from selenium.webdriver import Chrome
 
-from src.extractors.base import BaseExtractor, get_soup
-from src.utils import (
+from extractors.base import BaseExtractor, get_soup
+from utils import (
     click_picture,
     scroll_page_to_bottom,
     specs_see_more,

@@ -1,20 +1,19 @@
-from src.cameras import CameraManager
-from src.extractors.canon import CanonExtractor
-from src.extractors.nikon import NikonExtractor
-from src.extractors.sony import SonyExtractor
-from src.settings import get_driver
+from cameras import CameraManager
+from extractors.canon import CanonExtractor
+from extractors.nikon import NikonExtractor
+from extractors.sony import SonyExtractor
+from settings import get_driver
 
-print("Great Success")
 driver = get_driver()
 
-nikon_extractor = NikonExtractor()
-CameraManager.execute_extractor(nikon_extractor, driver)
+# nikon_extractor = NikonExtractor()
+# CameraManager.execute_extractor(nikon_extractor, driver)
 
 sony_extractor = SonyExtractor()
 CameraManager.execute_extractor(sony_extractor, driver)
 
-canon_extractor = CanonExtractor()
-CameraManager.execute_extractor(canon_extractor, driver)
+# canon_extractor = CanonExtractor()
+# CameraManager.execute_extractor(canon_extractor, driver)
 
 CameraManager.save_cameras()
 
