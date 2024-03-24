@@ -21,7 +21,6 @@ class CanonExtractor(BaseExtractor):
             )
             page_source = driver.page_source
             soup = get_soup(page_source)
-            category = soup.find("h1", class_="product-item-name").get_text(strip=True)
             amscroll_divs = {}
             for i in range(1, 4):
                 amscroll_divs[f"page_{i}"] = soup.find_all(
