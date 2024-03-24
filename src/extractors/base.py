@@ -4,7 +4,7 @@ from typing import List
 from bs4 import BeautifulSoup
 from selenium.webdriver import Chrome
 
-from schemas.base import BasePreview
+from .schemas import BasePreview
 
 
 class BaseExtractor(ABC):
