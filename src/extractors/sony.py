@@ -29,7 +29,6 @@ class SonyExtractor(BaseExtractor):
                 "li", {"class": "col-12 col-sm-6 col-md-6 col-lg-4"}
             )
 
-            div_category = soup.find("div", class_="custom-product-list")
             for camera in camera_elements:
                 price_div = camera.find("div", class_="custom-product-grid-item__price")
                 camera_dict = {
@@ -40,9 +39,7 @@ class SonyExtractor(BaseExtractor):
                         "a", class_="custom-product-grid-item__info"
                     ).text.strip(),
                     "price": price_div.text.strip() if price_div else "Not Available",
-                    "category": div_category.find(
-                        "span", class_="custom-sort-element__prod-list__bold__non-search"
-                    ).text.strip(),
+                    "category": category,
                     "detailed_link": cls.BASE_URL
                     + camera.find("a", class_="custom-product-grid-item__info")["href"],
                 }
