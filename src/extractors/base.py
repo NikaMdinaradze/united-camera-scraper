@@ -4,7 +4,7 @@ from typing import List
 from bs4 import BeautifulSoup
 from selenium.webdriver import Chrome
 
-from .schemas import BasePreview
+from .schemas import CameraPreview
 
 
 class BaseExtractor(ABC):
@@ -12,7 +12,7 @@ class BaseExtractor(ABC):
     CATEGORIES: list
 
     @abstractmethod
-    def get_preview(self, driver: Chrome) -> List[BasePreview]:
+    def get_preview(self, driver: Chrome) -> List[CameraPreview]:
         pass
 
     @staticmethod

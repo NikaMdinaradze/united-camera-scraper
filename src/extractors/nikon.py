@@ -6,6 +6,7 @@ from selenium.webdriver.support.ui import Select
 
 from extractors.base import BaseExtractor, get_soup
 from utils import wait_for_page_load
+from .schemas import CameraPreview
 
 
 class NikonExtractor(BaseExtractor):
@@ -37,7 +38,8 @@ class NikonExtractor(BaseExtractor):
                     "detailed_link": url,
                     "category": category,
                 }
-                camera_previews.append(camera_dict)
+                validated_data = CameraPreview.validate_dict(camera_dict)
+                camera_previews.append(validated_data)
         return camera_previews
 
     @staticmethod

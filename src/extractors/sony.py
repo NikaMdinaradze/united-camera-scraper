@@ -7,6 +7,7 @@ from utils import (
     specs_see_more,
     wait_for_page_load,
 )
+from .schemas import CameraPreview
 
 
 class SonyExtractor(BaseExtractor):
@@ -43,7 +44,8 @@ class SonyExtractor(BaseExtractor):
                     "detailed_link": cls.BASE_URL
                     + camera.find("a", class_="custom-product-grid-item__info")["href"],
                 }
-                camera_previews.append(camera_dict)
+                validated_data = CameraPreview.validate_dict(camera_dict)
+                camera_previews.append(validated_data)
 
         return camera_previews
 

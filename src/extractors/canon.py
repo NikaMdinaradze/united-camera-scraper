@@ -2,7 +2,7 @@ from selenium.webdriver import Chrome
 
 from extractors.base import BaseExtractor, get_soup
 from utils import scroll_to_load_more, wait_for_page_load
-
+from .schemas import CameraPreview
 
 class CanonExtractor(BaseExtractor):
     BASE_URL = "https://www.usa.canon.com/"
@@ -45,7 +45,8 @@ class CanonExtractor(BaseExtractor):
                             "detailed_link": f"{name.find('a', class_='product-item-link').get('href')}?color=Black&type=New",
                             "category": category,
                         }
-                        camera_previews.append(camera_dict)
+                        validated_data = CameraPreview.validate_dict(camera_dict)
+                        camera_previews.append(validated_data)
 
         return camera_previews
 
