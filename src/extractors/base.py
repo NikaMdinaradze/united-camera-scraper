@@ -4,13 +4,15 @@ from typing import List
 from bs4 import BeautifulSoup
 from selenium.webdriver import Chrome
 
+from schemas.base import BasePreview
+
 
 class BaseExtractor(ABC):
     BASE_URL: str
     CATEGORIES: list
 
     @abstractmethod
-    def get_preview(self, driver: Chrome) -> List[dict]:
+    def get_preview(self, driver: Chrome) -> List[BasePreview]:
         pass
 
     @staticmethod
