@@ -1,3 +1,4 @@
+import requests
 from selenium.webdriver import Chrome
 
 from src.extractors.base import BaseExtractor, get_soup
@@ -88,3 +89,18 @@ class SonyExtractor(BaseExtractor):
                 if img and img.has_attr("src"):
                     image_urls.append(img["src"])
         return image_urls
+
+    @staticmethod
+    def get_manual_pdf(model: str) -> dict:
+        model = model.replace("/B", "")  # remove body only tag
+        manuals_url = (
+            f"https://www.sony.com/electronics/support/e-mount-body-zv-e-series/"
+            f"{model.lower()}/manuals"
+        )
+        source = requests.get(manuals_url)
+        soup = get_soup(source.content)
+        web_manual_link = soup.find(
+            name="a", class_="item-link js-item-link", attrs={"target": "_blank"}
+        )["href"]
+        pdf_link = web_manual_link.replace("index.html", "print.pdf")
+        return {"User's Manual": pdf_link}
