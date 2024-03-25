@@ -5,3 +5,4 @@ pymongo==4.6.2
 openai==1.14.0
 fake-useragent==1.5.1
 undetected-chromedriver==3.5.5
+lxml==5.1.0

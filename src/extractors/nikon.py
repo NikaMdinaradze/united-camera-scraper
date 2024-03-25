@@ -93,10 +93,10 @@ class NikonExtractor(BaseExtractor):
         return products_dict[model]
 
     @classmethod
-    def get_manual_pdf(cls, model: str, driver: Chrome) -> dict:
+    def get_manual_pdf(cls, model: str) -> dict:
         page_url = cls.get_manuals_page(model)
         page_source = requests.get(page_url).content
-        soup = BeautifulSoup(page_source, "html.parser")
+        soup = get_soup(page_source)
         table = soup.find("div", class_="pseudoTable")
         rows = table.find_all("div", class_="row")
         rows = rows[1:]  # remove first title row
