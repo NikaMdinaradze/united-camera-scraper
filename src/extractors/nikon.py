@@ -78,7 +78,7 @@ class NikonExtractor(BaseExtractor):
 
     @staticmethod
     @lru_cache()
-    def get_manuals_urls():
+    def get_manuals_page(model: str) -> str:
         base_url = "https://downloadcenter.nikonimglib.com"
         url = f"{base_url}/en/1/product_data.xml"
         response = requests.get(url)
@@ -90,4 +90,17 @@ class NikonExtractor(BaseExtractor):
             product.get("name"): f"{base_url}{product.get('href')}"
             for product in soup.find_all("product")
         }
-        return products_dict
+        return products_dict[model]
+
+    @classmethod
+    def get_manual_pdf(cls, model: str, driver: Chrome) -> dict:
+        page_url = cls.get_manuals_page(model)
+        page_source = requests.get(page_url).content
+        soup = BeautifulSoup(page_source, "html.parser")
+        table = soup.find("div", class_="pseudoTable")
+        rows = table.find_all("div", class_="row")
+        rows = rows[1:]  # remove first title row
+        manuals_dict = {}
+        for row in rows:
+            manuals_dict[row.find("strong").text] = row.find("a").get("href")
+        return manuals_dict
