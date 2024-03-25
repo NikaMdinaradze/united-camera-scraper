@@ -1,5 +1,8 @@
+from functools import lru_cache
 from typing import List
 
+import requests
+from bs4 import BeautifulSoup
 from selenium.webdriver import Chrome
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import Select
@@ -72,3 +75,19 @@ class NikonExtractor(BaseExtractor):
             value = spec.find("div", class_=["specs col-sm-6"])
             result[key.get_text(strip=True)] = value.get_text(strip=True)
         return result
+
+    @staticmethod
+    @lru_cache()
+    def get_manuals_urls():
+        base_url = "https://downloadcenter.nikonimglib.com"
+        url = f"{base_url}/en/1/product_data.xml"
+        response = requests.get(url)
+        if response.status_code != 200:
+            raise Exception("Failed to fetch data from the URL")
+
+        soup = BeautifulSoup(response.content, "xml")
+        products_dict = {
+            product.get("name"): f"{base_url}{product.get('href')}"
+            for product in soup.find_all("product")
+        }
+        return products_dict
