@@ -1,8 +1,9 @@
 from selenium.webdriver import Chrome
 
-from extractors.base import BaseExtractor, get_soup
-from utils import scroll_to_load_more, wait_for_page_load
-from .schemas import CameraPreview
+from src.extractors.base import BaseExtractor, get_soup
+from src.extractors.schemas import CameraPreview
+from src.utils import scroll_to_load_more, wait_for_page_load
+
 
 class CanonExtractor(BaseExtractor):
     BASE_URL = "https://www.usa.canon.com/"

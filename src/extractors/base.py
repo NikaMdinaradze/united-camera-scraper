@@ -4,7 +4,7 @@ from typing import List
 from bs4 import BeautifulSoup
 from selenium.webdriver import Chrome
 
-from .schemas import CameraPreview
+from src.extractors.schemas import CameraPreview
 
 
 class BaseExtractor(ABC):

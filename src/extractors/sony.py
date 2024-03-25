@@ -1,13 +1,13 @@
 from selenium.webdriver import Chrome
 
-from extractors.base import BaseExtractor, get_soup
-from utils import (
+from src.extractors.base import BaseExtractor, get_soup
+from src.extractors.schemas import CameraPreview
+from src.utils import (
     click_picture,
     scroll_page_to_bottom,
     specs_see_more,
     wait_for_page_load,
 )
-from .schemas import CameraPreview
 
 
 class SonyExtractor(BaseExtractor):

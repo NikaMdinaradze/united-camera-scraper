@@ -21,4 +21,4 @@ RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key
 
 USER scraper
 
-CMD ["python", "src/main.py"]
+CMD ["python3", "-m","src.main"]

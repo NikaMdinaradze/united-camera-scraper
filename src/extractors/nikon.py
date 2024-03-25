@@ -4,9 +4,9 @@ from selenium.webdriver import Chrome
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import Select
 
-from extractors.base import BaseExtractor, get_soup
-from utils import wait_for_page_load
-from .schemas import CameraPreview
+from src.extractors.base import BaseExtractor, get_soup
+from src.extractors.schemas import CameraPreview
+from src.utils import wait_for_page_load
 
 
 class NikonExtractor(BaseExtractor):
