@@ -29,16 +29,21 @@ class Camera:
         self.specs = specs
         self.description = description
 
-    def set_images(self, driver: Chrome):
+    def _set_images(self, driver: Chrome):
         self.images = self.extractor.get_images(self.detailed_link, driver)
 
-    def set_specs(self, driver: Chrome):
+    def _set_specs(self, driver: Chrome):
         self.specs = self.extractor.get_specs(self.detailed_link, driver)
 
-    def set_description(self):
+    def _set_description(self):
         self.description = generate_description(
             brand=self.brand, model=self.model, specifications=self.specs
         )
+
+    def build(self, driver: Chrome):
+        self._set_images(driver)
+        self._set_specs(driver)
+        self._set_description()
 
     def is_in_database(self):
         query = {"$or": [{"brand": self.brand}, {"model": self.model}]}
@@ -68,9 +73,7 @@ class CameraManager:
         for camera_preview in camera_previews:
             camera = Camera(**camera_preview, extractor=extractor)
             if not camera.is_in_database():
-                camera.set_images(driver)
-                camera.set_specs(driver)
-                camera.set_description()
+                camera.build(driver)
                 cls.cameras.append(camera.to_dict())
 
     @classmethod
